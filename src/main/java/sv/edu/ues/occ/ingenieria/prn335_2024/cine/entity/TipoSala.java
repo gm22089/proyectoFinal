@@ -1,15 +1,18 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tipo_sala", schema = "public")
 public class TipoSala {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_sala", nullable = false)
-    private Integer id;
+    private Integer idTipoSala;
 
+    @NotBlank(message = "El nombre no puede estar vacío.")
     @Size(max = 155)
     @Column(name = "nombre", length = 155)
     private String nombre;
@@ -28,15 +31,15 @@ public class TipoSala {
     public TipoSala() {}
 
     public TipoSala(Integer id){
-        this.id = id;
+        this.idTipoSala = id;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdTipoSala() {
+        return idTipoSala;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdTipoSala(Integer id) {
+        this.idTipoSala = id;
     }
 
     public String getNombre() {

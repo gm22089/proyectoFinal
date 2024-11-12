@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 @Table(name = "sala_caracteristica", schema = "public")
 public class SalaCaracteristica {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sala_caracteristica", nullable = false)
-    private Long id;
+    private Long idSalaCaracteristica;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_tipo_sala")
@@ -22,11 +23,11 @@ public class SalaCaracteristica {
     private String valor;
 
     public Long getId() {
-        return id;
+        return idSalaCaracteristica;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idSalaCaracteristica = id;
     }
 
     public TipoSala getIdTipoSala() {

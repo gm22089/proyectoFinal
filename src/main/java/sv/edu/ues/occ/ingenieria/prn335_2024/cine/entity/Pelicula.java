@@ -7,8 +7,9 @@ import jakarta.validation.constraints.Size;
 @Table(name = "pelicula", schema = "public")
 public class Pelicula {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pelicula", nullable = false)
-    private Long id;
+    private Long idPelicula;
 
     @Size(max = 255)
     @Column(name = "nombre")
@@ -19,11 +20,11 @@ public class Pelicula {
     private String sinopsis;
 
     public Long getId() {
-        return id;
+        return idPelicula;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idPelicula = id;
     }
 
     public String getNombre() {

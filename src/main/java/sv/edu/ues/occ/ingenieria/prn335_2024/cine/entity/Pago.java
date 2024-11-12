@@ -8,8 +8,9 @@ import java.time.OffsetDateTime;
 @Table(name = "pago", schema = "public")
 public class Pago {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pago", nullable = false)
-    private Long id;
+    private Long idPago;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_factura")
@@ -23,11 +24,11 @@ public class Pago {
     private OffsetDateTime fecha;
 
     public Long getId() {
-        return id;
+        return idPago;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idPago = id;
     }
 
     public Factura getIdFactura() {

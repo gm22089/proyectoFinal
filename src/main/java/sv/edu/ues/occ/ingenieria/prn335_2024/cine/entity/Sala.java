@@ -7,8 +7,9 @@ import jakarta.validation.constraints.Size;
 @Table(name = "sala", schema = "public")
 public class Sala {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sala", nullable = false)
-    private Integer id;
+    private Integer idSala;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_sucursal")
@@ -26,11 +27,11 @@ public class Sala {
     private String observaciones;
 
     public Integer getId() {
-        return id;
+        return idSala;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idSala = id;
     }
 
     public Sucursal getIdSucursal() {

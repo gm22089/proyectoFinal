@@ -9,8 +9,9 @@ import java.time.OffsetDateTime;
 @Table(name = "factura", schema = "public")
 public class Factura {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factura", nullable = false)
-    private Long id;
+    private Long idFactura;
 
     @Size(max = 255)
     @Column(name = "cliente")
@@ -28,11 +29,11 @@ public class Factura {
     private String comentarios;
 
     public Long getId() {
-        return id;
+        return idFactura;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idFactura = id;
     }
 
     public String getCliente() {

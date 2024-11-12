@@ -141,7 +141,7 @@ public abstract class AbstractFrm<T> implements Serializable {
         } catch (Exception ex) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, ex.getMessage(), ex);
             mensaje.setSeverity(FacesMessage.SEVERITY_ERROR);
-            mensaje.setSummary("no se pudo guardar el datos");
+            mensaje.setSummary("no se pudo guardar el dato");
             mensaje.setDetail(ex.getMessage());
             getFC().addMessage(null,mensaje);
         }

@@ -7,8 +7,9 @@ import jakarta.validation.constraints.Size;
 @Table(name = "sucursal", schema = "public")
 public class Sucursal {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sucursal", nullable = false)
-    private Integer id;
+    private Integer idSucursal;
 
     @Size(max = 155)
     @Column(name = "nombre", length = 155)
@@ -28,11 +29,11 @@ public class Sucursal {
     private Boolean activo;
 
     public Integer getId() {
-        return id;
+        return idSucursal;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.idSucursal = id;
     }
 
     public String getNombre() {

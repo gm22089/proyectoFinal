@@ -9,8 +9,9 @@ import java.time.OffsetDateTime;
 @Table(name = "reserva", schema = "public")
 public class Reserva {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reserva", nullable = false)
-    private Long id;
+    private Long idReserva;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_programacion")
@@ -32,11 +33,11 @@ public class Reserva {
     private String observaciones;
 
     public Long getId() {
-        return id;
+        return idReserva;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idReserva = id;
     }
 
     public Programacion getIdProgramacion() {

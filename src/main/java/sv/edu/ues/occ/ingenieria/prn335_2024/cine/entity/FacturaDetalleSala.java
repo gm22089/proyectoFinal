@@ -8,8 +8,9 @@ import java.math.BigDecimal;
 @Table(name = "factura_detalle_sala", schema = "public")
 public class FacturaDetalleSala {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factura_detalle_sala", nullable = false)
-    private Long id;
+    private Long idFacturaDetalleSala;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_factura")
@@ -23,11 +24,11 @@ public class FacturaDetalleSala {
     private BigDecimal monto;
 
     public Long getId() {
-        return id;
+        return idFacturaDetalleSala;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.idFacturaDetalleSala = id;
     }
 
     public Factura getIdFactura() {
