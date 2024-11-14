@@ -3,9 +3,12 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+import java.util.List;
+
 @Entity
 @Table(name = "sala", schema = "public")
-public class Sala {
+public class Sala implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sala", nullable = false)
@@ -26,11 +29,21 @@ public class Sala {
     @Column(name = "observaciones")
     private String observaciones;
 
-    public Integer getId() {
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "idSala")
+    public List<Asiento> asientoList;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "idSala")
+    public List<SalaCaracteristica> salaCaracteristicaList;
+
+    public Sala() {}
+
+    public Sala(Integer idSala){this.idSala = idSala;}
+
+    public Integer getIdSala() {
         return idSala;
     }
 
-    public void setId(Integer id) {
+    public void setIdSala(Integer id) {
         this.idSala = id;
     }
 
@@ -66,4 +79,19 @@ public class Sala {
         this.observaciones = observaciones;
     }
 
+    public List<Asiento> getAsientoList() {
+        return asientoList;
+    }
+
+    public void setAsientoList(List<Asiento> asientoList) {
+        this.asientoList = asientoList;
+    }
+
+    public List<SalaCaracteristica> getSalaCaracteristicaList() {
+        return salaCaracteristicaList;
+    }
+
+    public void setSalaCaracteristicaList(List<SalaCaracteristica> salaCaracteristicaList) {
+        this.salaCaracteristicaList = salaCaracteristicaList;
+    }
 }

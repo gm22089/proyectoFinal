@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tipo_sala", schema = "public")
-public class TipoSala {
+public class TipoSala implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_sala", nullable = false)
@@ -30,8 +32,8 @@ public class TipoSala {
 
     public TipoSala() {}
 
-    public TipoSala(Integer id){
-        this.idTipoSala = id;
+    public TipoSala(Integer idTipoSala){
+        this.idTipoSala = idTipoSala;
     }
 
     public Integer getIdTipoSala() {

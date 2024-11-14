@@ -2,11 +2,12 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "programacion", schema = "public")
-public class Programacion {
+public class Programacion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_programacion", nullable = false)
@@ -30,11 +31,15 @@ public class Programacion {
     @Column(name = "comentarios")
     private String comentarios;
 
-    public Long getId() {
+    public Programacion() {}
+
+    public Programacion(Long idProgramacion) {this.idProgramacion = idProgramacion;}
+
+    public Long getIdProgramacion() {
         return idProgramacion;
     }
 
-    public void setId(Long id) {
+    public void setIdProgramacion(Long id) {
         this.idProgramacion = id;
     }
 

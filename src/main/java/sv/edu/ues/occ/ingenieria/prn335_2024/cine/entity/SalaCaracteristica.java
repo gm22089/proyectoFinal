@@ -2,9 +2,11 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "sala_caracteristica", schema = "public")
-public class SalaCaracteristica {
+public class SalaCaracteristica implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sala_caracteristica", nullable = false)
@@ -22,11 +24,15 @@ public class SalaCaracteristica {
     @Column(name = "valor")
     private String valor;
 
-    public Long getId() {
+    public SalaCaracteristica() {}
+
+    public SalaCaracteristica(Long idSalaCaracteristica){this.idSalaCaracteristica = idSalaCaracteristica;}
+
+    public Long getIdSalaCaracteristica() {
         return idSalaCaracteristica;
     }
 
-    public void setId(Long id) {
+    public void setIdSalaCaracteristica(Long id) {
         this.idSalaCaracteristica = id;
     }
 

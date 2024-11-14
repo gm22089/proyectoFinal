@@ -2,9 +2,11 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "pelicula_caracteristica", schema = "public")
-public class PeliculaCaracteristica {
+public class PeliculaCaracteristica implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pelicula_caracteristica", nullable = false)
@@ -22,11 +24,15 @@ public class PeliculaCaracteristica {
     @Column(name = "valor")
     private String valor;
 
-    public Long getId() {
+    public PeliculaCaracteristica() {}
+
+    public PeliculaCaracteristica(Long idPeliculaCaracteristica){this.idPeliculaCaracteristica = idPeliculaCaracteristica;}
+
+    public Long getIdPeliculaCaracteristica() {
         return idPeliculaCaracteristica;
     }
 
-    public void setId(Long id) {
+    public void setIdPeliculaCaracteristica(Long id) {
         this.idPeliculaCaracteristica = id;
     }
 

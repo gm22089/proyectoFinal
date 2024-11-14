@@ -2,11 +2,12 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "pago", schema = "public")
-public class Pago {
+public class Pago implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pago", nullable = false)
@@ -23,11 +24,15 @@ public class Pago {
     @Column(name = "fecha")
     private OffsetDateTime fecha;
 
-    public Long getId() {
+    public Pago() {}
+
+    public Pago(Long idPago){this.idPago = idPago;}
+
+    public Long getIdPago() {
         return idPago;
     }
 
-    public void setId(Long id) {
+    public void setIdPago(Long id) {
         this.idPago = id;
     }
 

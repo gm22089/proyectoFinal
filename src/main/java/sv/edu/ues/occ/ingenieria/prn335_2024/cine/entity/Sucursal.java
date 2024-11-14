@@ -3,9 +3,11 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "sucursal", schema = "public")
-public class Sucursal {
+public class Sucursal implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sucursal", nullable = false)
@@ -28,11 +30,15 @@ public class Sucursal {
     @Column(name = "activo")
     private Boolean activo;
 
-    public Integer getId() {
+    public Sucursal() {}
+
+    public Sucursal(Integer idSucursal) {this.idSucursal = idSucursal;}
+
+    public Integer getIdSucursal() {
         return idSucursal;
     }
 
-    public void setId(Integer id) {
+    public void setIdSucursal(Integer id) {
         this.idSucursal = id;
     }
 

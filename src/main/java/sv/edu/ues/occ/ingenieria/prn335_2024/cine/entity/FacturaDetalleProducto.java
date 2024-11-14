@@ -2,11 +2,12 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "factura_detalle_producto", schema = "public")
-public class FacturaDetalleProducto {
+public class FacturaDetalleProducto implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factura_detalle_producto", nullable = false)
@@ -23,11 +24,17 @@ public class FacturaDetalleProducto {
     @Column(name = "monto", precision = 10, scale = 2)
     private BigDecimal monto;
 
-    public Long getId() {
+    public FacturaDetalleProducto() {}
+
+    public FacturaDetalleProducto(Long idFacturaDetalleProducto) {
+        this.idFacturaDetalleProducto = idFacturaDetalleProducto;
+    }
+
+    public Long getIdFacturaDetalleProducto() {
         return idFacturaDetalleProducto;
     }
 
-    public void setId(Long id) {
+    public void setIdFacturaDetalleProducto(Long id) {
         this.idFacturaDetalleProducto = id;
     }
 

@@ -3,9 +3,11 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tipo_asiento", schema = "public")
-public class TipoAsiento {
+public class TipoAsiento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_asiento", nullable = false)
@@ -26,11 +28,15 @@ public class TipoAsiento {
     @Column(name = "expresion_regular")
     private String expresionRegular;
 
-    public Integer getId() {
+    public TipoAsiento() {}
+
+    public TipoAsiento(Integer idTipoAsiento){this.idTipoAsiento=idTipoAsiento;}
+
+    public Integer getIdTipoAsiento() {
         return idTipoAsiento;
     }
 
-    public void setId(Integer id) {
+    public void setIdTipoAsiento(Integer id) {
         this.idTipoAsiento = id;
     }
 

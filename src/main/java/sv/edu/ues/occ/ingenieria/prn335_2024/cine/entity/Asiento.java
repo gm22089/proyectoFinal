@@ -3,9 +3,11 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "asiento", schema = "public")
-public class Asiento {
+public class Asiento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_asiento", nullable = false)
@@ -22,11 +24,17 @@ public class Asiento {
     @Column(name = "activo")
     private Boolean activo;
 
-    public Long getId() {
+    public Asiento(){}
+
+    public Asiento(Long idAsiento){
+        this.idAsiento = idAsiento;
+    }
+
+    public Long getIdAsiento() {
         return idAsiento;
     }
 
-    public void setId(Long id) {
+    public void setIdAsiento(Long id) {
         this.idAsiento = id;
     }
 

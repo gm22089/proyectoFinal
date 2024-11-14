@@ -3,11 +3,12 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "factura", schema = "public")
-public class Factura {
+public class Factura implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factura", nullable = false)
@@ -28,11 +29,17 @@ public class Factura {
     @Column(name = "comentarios")
     private String comentarios;
 
-    public Long getId() {
+    public Factura() {}
+
+    public Factura(Long idFactura){
+        this.idFactura = idFactura;
+    }
+
+    public Long getIdFactura() {
         return idFactura;
     }
 
-    public void setId(Long id) {
+    public void setIdFactura(Long id) {
         this.idFactura = id;
     }
 
