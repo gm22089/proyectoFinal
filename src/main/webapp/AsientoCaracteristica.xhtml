@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+   <title>Asiento Característica</title>
+</h:head>
+
+<h:body>
+   <p:outputLabel value="Asiento Característica" />
+
+   <h:form id="frmTabla">
+      <!-- Tabla de Asiento Característica -->
+      <p:dataTable value="#{frmAsientoCaracteristica.modelo}" var="r"
+                   lazy="true"
+                   paginator="true"
+                   rows="5"
+                   first="0"
+                   selectionMode="single"
+                   selection="#{frmAsientoCaracteristica.registro}"
+                   rendered="#{not empty frmAsientoCaracteristica.modelo}">
+         <p:ajax process="@this" update=":pnlDetalle :frmTabla" event="rowSelect" listener="#{frmAsientoCaracteristica.selecionarFila}"/>
+
+         <p:column headerText="ID">
+            <h:outputText value="#{r.idAsientoCaracteristica}" />
+         </p:column>
+         <p:column headerText="Asiento">
+            <h:outputText value="#{r.idAsiento != null ? r.idAsiento.idAsiento : 'No asignado'}" />
+         </p:column>
+         <p:column headerText="Tipo Asiento">
+            <h:outputText value="#{r.idTipoAsiento != null ? r.idTipoAsiento.idTipoAsiento : 'No asignado'}" />
+         </p:column>
+         <p:column headerText="Valor">
+            <h:outputText value="#{r.valor}" />
+         </p:column>
+      </p:dataTable>
+
+      <!-- Botones para CANCELAR y NUEVO -->
+      <h:panelGrid columns="2" style="margin-top: 20px;">
+         <p:commandButton value="CANCELAR" rendered="#{frmAsientoCaracteristica.estado ne 'NINGUNO'}"
+                          update=":pnlDetalle :frmTabla"
+                          actionListener="#{frmAsientoCaracteristica.btnCancelarHandler}" />
+         <p:commandButton value="NUEVO" update=":pnlDetalle :frmTabla"
+                          actionListener="#{frmAsientoCaracteristica.btnNuevoHandler}" />
+      </h:panelGrid>
+
+      <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
+   </h:form>
+
+   <h:panelGroup id="pnlDetalle">
+      <!-- Formulario de detalle de Asiento Característica -->
+      <h:form rendered="#{not empty frmAsientoCaracteristica.registro}" id="frmDetalle">
+         <h:panelGrid columns="2">
+            <p:outputLabel value="ID Asiento Característica" for="txtid" />
+            <p:inputText id="txtid" value="#{frmAsientoCaracteristica.registro.idAsientoCaracteristica}"
+                         readonly="true" disabled="true" />
+
+            <p:outputLabel value="Descripción" for="txtDescripcion" />
+            <p:inputText id="txtDescripcion" value="#{frmAsientoCaracteristica.registro.valor}" size="70" />
+         </h:panelGrid>
+
+         <h:panelGrid columns="2" style="margin-top: 20px;">
+            <p:outputLabel value="ID Asiento" for="txtAsiento" />
+            <p:inputText id="txtAsiento" value="#{frmAsientoCaracteristica.registro.idAsiento.idAsiento}"
+                         readonly="true" disabled="true" />
+         </h:panelGrid>
+
+         <h:panelGrid columns="2" style="margin-top: 20px;">
+            <p:outputLabel value="ID Tipo Asiento" for="txtTipoAsiento" />
+            <p:inputText id="txtTipoAsiento" value="#{frmAsientoCaracteristica.registro.idTipoAsiento.idTipoAsiento}"
+                         readonly="true" disabled="true" />
+         </h:panelGrid>
+
+         <!-- Botones para GUARDAR, MODIFICAR, ELIMINAR -->
+         <h:panelGrid columns="3" style="margin-top: 20px;">
+            <p:commandButton value="GUARDAR" rendered="#{frmAsientoCaracteristica.estado == 'CREAR'}"
+                             update=":frmTabla :pnlDetalle @form"
+                             actionListener="#{frmAsientoCaracteristica.btnGuardarHandler}" />
+            <p:commandButton value="MODIFICAR" rendered="#{frmAsientoCaracteristica.estado == 'MODIFICAR'}"
+                             update=":frmTabla :pnlDetalle @form"
+                             actionListener="#{frmAsientoCaracteristica.btnModificarHandler}" />
+            <p:commandButton value="ELIMINAR" rendered="#{frmAsientoCaracteristica.estado == 'MODIFICAR'}"
+                             update=":frmTabla :pnlDetalle @form"
+                             actionListener="#{frmAsientoCaracteristica.btneEliminarHandler}" />
+         </h:panelGrid>
+      </h:form>
+   </h:panelGroup>
+</h:body>
+</html>
