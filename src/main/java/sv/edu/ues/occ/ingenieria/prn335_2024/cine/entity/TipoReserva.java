@@ -2,11 +2,20 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "tipo_reserva", schema = "public")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "TipoReserva.findAll", query = "SELECT t FROM TipoReserva t"),
+        @NamedQuery(name = "TipoReserva.findByIdTipoReserva", query = "SELECT t FROM TipoReserva t WHERE t.idTipoReserva = :idTipoReserva"),
+        @NamedQuery(name = "TipoReserva.findByNombre", query = "SELECT t FROM TipoReserva t WHERE t.nombre = :nombre"),
+        @NamedQuery(name = "TipoReserva.findByActivo", query = "SELECT t FROM TipoReserva t WHERE t.activo = :activo"),
+        @NamedQuery(name = "TipoReserva.findByComentarios", query = "SELECT t FROM TipoReserva t WHERE t.comentarios = :comentarios")})
 public class TipoReserva implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +32,9 @@ public class TipoReserva implements Serializable {
     @Lob
     @Column(name = "comentarios")
     private String comentarios;
+
+    @OneToMany(mappedBy = "idTipoReserva", fetch = FetchType.LAZY)
+    private List<Reserva> reservaList;
 
     public TipoReserva() {}
 
@@ -60,4 +72,36 @@ public class TipoReserva implements Serializable {
         this.comentarios = comentarios;
     }
 
+    public List<Reserva> getReservaList() {
+        return reservaList;
+    }
+
+    public void setReservaList(List<Reserva> reservaList) {
+        this.reservaList = reservaList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idTipoReserva != null ? idTipoReserva.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TipoReserva)) {
+            return false;
+        }
+        TipoReserva other = (TipoReserva) object;
+        if ((this.idTipoReserva == null && other.idTipoReserva != null) || (this.idTipoReserva != null && !this.idTipoReserva.equals(other.idTipoReserva))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoReserva[ idTipoReserva=" + idTipoReserva + " ]";
+    }
 }

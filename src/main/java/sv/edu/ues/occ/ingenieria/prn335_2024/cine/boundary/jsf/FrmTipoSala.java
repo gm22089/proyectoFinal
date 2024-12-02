@@ -71,6 +71,6 @@ public class FrmTipoSala extends AbstractFrm<TipoSala> implements Serializable {
 
     @Override
     public String paginaNombre() {
-        return "Tipo Sala";
+        return "Tipo de Sala";
     }
 }

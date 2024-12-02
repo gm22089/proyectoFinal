@@ -71,6 +71,6 @@ public class FrmTipoAsiento extends AbstractFrm<TipoAsiento> implements Serializ
 
     @Override
     public String paginaNombre() {
-        return "Tipo Asiento";
+        return "Tipo de Asiento";
     }
 }

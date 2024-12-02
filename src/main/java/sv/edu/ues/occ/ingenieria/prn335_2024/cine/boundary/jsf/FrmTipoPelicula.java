@@ -70,6 +70,6 @@ public class FrmTipoPelicula extends AbstractFrm<TipoPelicula> implements Serial
 
     @Override
     public String paginaNombre() {
-        return "Tipo Pelicula";
+        return "Tipo de Película";
     }
 }
