@@ -80,7 +80,7 @@ public class FrmMenu implements Serializable {
         DefaultMenuItem peliculaTipo = DefaultMenuItem.builder()
                 .value("Película")
                 .ajax(true)
-                .command("#{frmMenu.navegar('TipoPeliculaa.jsf')}") // Pelicula navigation logic
+                .command("#{frmMenu.navegar('TipoPelicula.jsf')}") // Pelicula navigation logic
                 .build();
 
         DefaultMenuItem productoTipo = DefaultMenuItem.builder()

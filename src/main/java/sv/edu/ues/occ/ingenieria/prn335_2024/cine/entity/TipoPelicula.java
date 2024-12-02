@@ -2,11 +2,20 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlTransient;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "tipo_pelicula", schema = "public")
+@NamedQueries({
+        @NamedQuery(name = "TipoPelicula.findAll", query = "SELECT t FROM TipoPelicula t"),
+        @NamedQuery(name = "TipoPelicula.findByIdTipoPelicula", query = "SELECT t FROM TipoPelicula t WHERE t.idTipoPelicula = :idTipoPelicula"),
+        @NamedQuery(name = "TipoPelicula.findByNombre", query = "SELECT t FROM TipoPelicula t WHERE t.nombre = :nombre"),
+        @NamedQuery(name = "TipoPelicula.findByActivo", query = "SELECT t FROM TipoPelicula t WHERE t.activo = :activo"),
+        @NamedQuery(name = "TipoPelicula.findByComentarios", query = "SELECT t FROM TipoPelicula t WHERE t.comentarios = :comentarios"),
+        @NamedQuery(name = "TipoPelicula.findByExpresionRegular", query = "SELECT t FROM TipoPelicula t WHERE t.expresionRegular = :expresionRegular")})
 public class TipoPelicula implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +36,9 @@ public class TipoPelicula implements Serializable {
     @Lob
     @Column(name = "expresion_regular")
     private String expresionRegular;
+
+    @OneToMany(mappedBy = "idTipoPelicula", fetch = FetchType.LAZY)
+    private List<PeliculaCaracteristica> peliculaCaracteristicaList;
 
     public TipoPelicula() {}
 
@@ -72,4 +84,36 @@ public class TipoPelicula implements Serializable {
         this.expresionRegular = expresionRegular;
     }
 
+    public List<PeliculaCaracteristica> getPeliculaCaracteristicaList() {
+        return peliculaCaracteristicaList;
+    }
+
+    public void setPeliculaCaracteristicaList(List<PeliculaCaracteristica> peliculaCaracteristicaList) {
+        this.peliculaCaracteristicaList = peliculaCaracteristicaList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idTipoPelicula != null ? idTipoPelicula.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TipoPelicula)) {
+            return false;
+        }
+        TipoPelicula other = (TipoPelicula) object;
+        if ((this.idTipoPelicula == null && other.idTipoPelicula != null) || (this.idTipoPelicula != null && !this.idTipoPelicula.equals(other.idTipoPelicula))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoPelicula[ idTipoPelicula=" + idTipoPelicula + " ]";
+    }
 }

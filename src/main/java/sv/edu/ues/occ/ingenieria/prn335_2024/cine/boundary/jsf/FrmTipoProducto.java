@@ -7,8 +7,8 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import org.primefaces.event.SelectEvent;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.AbstractDataPersistence;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.TipoSalaBean;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoSala;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.TipoProductoBean;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoProducto;
 
 import java.io.Serializable;
 import java.util.logging.Level;
@@ -16,17 +16,18 @@ import java.util.logging.Logger;
 
 @Named
 @ViewScoped
-public class FrmTipoSala extends AbstractFrm<TipoSala> implements Serializable {
+public class FrmTipoProducto extends AbstractFrm<TipoProducto> implements Serializable {
 
     @Inject
-    TipoSalaBean tsBean;
+    TipoProductoBean tprBean;
     @Inject
     FacesContext fc;
 
     @Override
     public void instanciarRegistro() {
-        this.registro=new TipoSala();
+        this.registro = new TipoProducto();
         this.registro.setActivo(true);
+
     }
 
     @Override
@@ -35,25 +36,24 @@ public class FrmTipoSala extends AbstractFrm<TipoSala> implements Serializable {
     }
 
     @Override
-    public AbstractDataPersistence<TipoSala> getAbstractDataPersistence() {
-        return tsBean;
+    public AbstractDataPersistence<TipoProducto> getAbstractDataPersistence() {
+        return tprBean;
     }
 
     @Override
-    public String getIdByObject(TipoSala object) {
+    public String getIdByObject(TipoProducto object) {
         if (object!=null){
-            return object.getIdTipoSala().toString();
+            return object.getIdTipoProducto().toString();
         }
         return null;
     }
 
     @Override
-    public TipoSala getObjectById(String id) {
-
+    public TipoProducto getObjectById(String id) {
         if (id!=null && modelo!=null && modelo.getWrappedData()!=null){
 
             return modelo.getWrappedData().stream().
-                    filter(r->id.equals(r.getIdTipoSala().toString())).findFirst().
+                    filter(r->id.equals(r.getIdTipoProducto().toString())).findFirst().
                     orElseGet(()-> {
                         Logger.getLogger(getClass().getName()).log(Level.INFO,"No se ha encontrado objeto");
                         return null;});
@@ -62,15 +62,15 @@ public class FrmTipoSala extends AbstractFrm<TipoSala> implements Serializable {
     }
 
     @Override
-    public void selecionarFila(SelectEvent<TipoSala> event) {
-        TipoSala tipoSalaSelected = (TipoSala) event.getObject();
-        FacesMessage mensaje=new FacesMessage("Tipo de sala seleccionada",tipoSalaSelected.getNombre());
+    public void selecionarFila(SelectEvent<TipoProducto> event) {
+        TipoProducto tipoProductoSelected = (TipoProducto) event.getObject();
+        FacesMessage mensaje=new FacesMessage("Tipo de Producto seleccionado",tipoProductoSelected.getNombre());
         fc.addMessage(null, mensaje);
         this.estado=ESTADO_CRUD.MODIFICAR;
     }
 
     @Override
     public String paginaNombre() {
-        return "Tipo Sala";
+        return "Tipo Producto";
     }
 }
