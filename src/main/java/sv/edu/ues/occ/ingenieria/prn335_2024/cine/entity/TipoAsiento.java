@@ -2,11 +2,21 @@ package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "tipo_asiento", schema = "public")
+@XmlRootElement
+@NamedQueries({
+        @NamedQuery(name = "TipoAsiento.findAll", query = "SELECT t FROM TipoAsiento t"),
+        @NamedQuery(name = "TipoAsiento.findByIdTipoAsiento", query = "SELECT t FROM TipoAsiento t WHERE t.idTipoAsiento = :idTipoAsiento"),
+        @NamedQuery(name = "TipoAsiento.findByNombre", query = "SELECT t FROM TipoAsiento t WHERE t.nombre = :nombre"),
+        @NamedQuery(name = "TipoAsiento.findByActivo", query = "SELECT t FROM TipoAsiento t WHERE t.activo = :activo"),
+        @NamedQuery(name = "TipoAsiento.findByComentarios", query = "SELECT t FROM TipoAsiento t WHERE t.comentarios = :comentarios"),
+        @NamedQuery(name = "TipoAsiento.findByExpresionRegular", query = "SELECT t FROM TipoAsiento t WHERE t.expresionRegular = :expresionRegular")})
 public class TipoAsiento implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +37,9 @@ public class TipoAsiento implements Serializable {
     @Lob
     @Column(name = "expresion_regular")
     private String expresionRegular;
+
+    @OneToMany(mappedBy = "idTipoAsiento", fetch = FetchType.LAZY)
+    private List<AsientoCaracteristica> asientoCaracteristicaList;
 
     public TipoAsiento() {}
 
@@ -72,4 +85,36 @@ public class TipoAsiento implements Serializable {
         this.expresionRegular = expresionRegular;
     }
 
+    public List<AsientoCaracteristica> getAsientoCaracteristicaList() {
+        return asientoCaracteristicaList;
+    }
+
+    public void setAsientoCaracteristicaList(List<AsientoCaracteristica> asientoCaracteristicaList) {
+        this.asientoCaracteristicaList = asientoCaracteristicaList;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idTipoAsiento != null ? idTipoAsiento.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof TipoAsiento)) {
+            return false;
+        }
+        TipoAsiento other = (TipoAsiento) object;
+        if ((this.idTipoAsiento == null && other.idTipoAsiento != null) || (this.idTipoAsiento != null && !this.idTipoAsiento.equals(other.idTipoAsiento))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoAsiento[ idTipoAsiento=" + idTipoAsiento + " ]";
+    }
 }

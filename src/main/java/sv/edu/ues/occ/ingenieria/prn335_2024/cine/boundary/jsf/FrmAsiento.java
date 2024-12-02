@@ -69,6 +69,11 @@ public class FrmAsiento extends AbstractFrm<Asiento> implements Serializable {
         }
     }
 
+    @Override
+    public String paginaNombre() {
+        return "";
+    }
+
     public void btnGuardarHandler() {
         try {
             if (registro != null) {

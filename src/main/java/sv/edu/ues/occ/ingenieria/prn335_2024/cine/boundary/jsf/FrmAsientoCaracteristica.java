@@ -80,4 +80,9 @@ public class FrmAsientoCaracteristica extends AbstractFrm<AsientoCaracteristica>
         fc.addMessage(null, mensaje);
         this.estado = ESTADO_CRUD.MODIFICAR;
     }
+
+    @Override
+    public String paginaNombre() {
+        return "";
+    }
 }

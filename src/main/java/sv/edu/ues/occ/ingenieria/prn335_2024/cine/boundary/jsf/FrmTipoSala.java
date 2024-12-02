@@ -71,4 +71,9 @@ public class FrmTipoSala extends AbstractFrm<TipoSala> implements Serializable {
         fc.addMessage(null, mensaje);
         this.estado=ESTADO_CRUD.MODIFICAR;
     }
+
+    @Override
+    public String paginaNombre() {
+        return "Tipo Sala";
+    }
 }

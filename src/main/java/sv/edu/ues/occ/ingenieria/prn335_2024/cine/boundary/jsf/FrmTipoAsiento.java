@@ -68,4 +68,9 @@ public class FrmTipoAsiento extends AbstractFrm<TipoAsiento> implements Serializ
         fc.addMessage(null, mensaje);
         this.estado = ESTADO_CRUD.MODIFICAR;
     }
+
+    @Override
+    public String paginaNombre() {
+        return "Tipo Asiento";
+    }
 }
