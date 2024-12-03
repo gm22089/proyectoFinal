@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.facelets"
+      xmlns:o="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- Definir el título de la página -->
+    <template>/WEB-INF/templates/principal.xhtml</template>
+    <ui:define name="titulo">
+        Reserva Cliente
+    </ui:define>
+
+    <!-- Definir el cuerpo de la página -->
+    <ui:define name="cuerpo">
+        <h:form id="frmReservas">
+            <h2>Seleccion</h2>
+            <p:messages id="messages" showDetail="true"/>
+
+            <p:tabView id="tabDetalle" activeIndex="#{frmReservas.indiceTab}"  >
+                <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
+                <p:ajax process="@this" event="tabChange" listener="#{frmReservas.cambiarTab}" update=":growl" />
+                <!-- comment    <p:tab disabled="#{frmReservas.indiceTab!=0}" title="fecha" id="fecha" closable="false" >
+                    <h:form>
+                        <p:panel header="Selecionar una fecha">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Tipo Reserva"/>
+                                <p:selectOneListbox value="#{frmReservas.idTipoReservaSelecionada}"  style="width: 200px;">
+                                    <o:selectItems value="#{frmReservas.tipoReservasDisponibles}" var="tr" itemLabel="#{tr.nombre}"
+                                                   itemValue="#{tr.idTipoReserva}" />
+                                    <p:ajax event="valueChange" listener="#{frmReservas.onTipoReservaChange}" update="text" />
+                                </p:selectOneListbox>
+                                <h:outputText value="Selecione un dia"/>
+                                <p:calendar value="#{frmReservas.fechaReservaSelecionada}"
+                                            required="true"
+        
+                                            pattern="dd/MM/yyyy"
+                                            >
+                                    <p:ajax event="dateSelect" listener="#{frmReservas.buscarProgramaciones}" update="text" />
+                                </p:calendar>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                </p:tab> --> 
+                <p:tab disabled="#{frmReservas.indiceTab!=1}" title="Funcion" id="funcion"  closable="false">
+                    <h:form id="frmSelecion">
+                        <p:panel id="pnlSelecion" header="Selecionar una pelicula">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="Selecione una pelicula"/>
+                                <p:autoComplete
+                                    id="pelicula"
+                                    value="#{frmReservas.idProgramacion}"
+                                    completeMethod="#{frmReservas.sugerencias}"
+                                    var="item"
+                                    itemValue="#{item.split('_')[0]}"
+                                    itemLabel="#{item.split('_')[1]}"
+                                    dropdown="true"
+                                    effect="fade"
+                                    forceSelection="true"
+                                    >
+                                    <p:ajax update="frmSelecion pnlPeliculaDetalle" event="itemSelect"
+                                            listener="#{frmReservas.onProgramacionChange}" process="@this"/>
+                                </p:autoComplete>
+
+                                <h:panelGrid columns="1" rendered="#{frmReservas.programacionSelecionada!=null}" id="pnlPeliculaDetalle">
+                                    <br/>
+                                    <h:outputText value="NOMBRE"/>
+                                    <h:outputText value="${frmReservas.programacionSelecionada.idPelicula.nombre}" />
+                                    <br />
+                                    <h:outputText value="SINOPSIS"/>
+                                    <h:outputText value="${frmReservas.programacionSelecionada.idPelicula.sinopsis}" />
+                                    <br />
+                                    <h:outputText value="CARRACTERISTICAS"/>
+                                    <f:repeat value="#{frmReservas.programacionSelecionada.idPelicula.peliculaCaracteristicaList}" var="c">
+                                        <h:outputText value=" * #{c.idTipoPelicula.nombre} : #{c.valor}"/>
+                                        <br/>
+                                    </f:repeat>
+
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                </p:tab>
+                <p:tab disabled="#{frmReservas.indiceTab!=2}" title="Asiento" id="Asiento" closable="false">
+                    <h:form>
+                        <p:panel header="Asientos">
+                            <h:panelGrid columns="3">
+                                <h:panelGroup>
+                                    <h:outputText value="Asientos disponibles"/>
+
+                                    <p:selectOneListbox id="asientoDisponiblesSOB" value="#{frmReservas.idAsientoSelecionado}"  style="width: 200px;">
+                                        <o:selectItems value="#{frmReservas.asientosDisponibles}" var="ta" itemLabel="#{ta.nombre}"
+                                                       itemValue="#{ta.idAsiento}" />
+                                        <p:ajax event="valueChange" listener="#{frmReservas.onTipoReservaChange}" update="btnCambiosSOB" />
+                                    </p:selectOneListbox>
+                                </h:panelGroup>
+                                <h:panelGrid columns="1" id="btnCambiosSOB">
+                                    <p:commandButton value="⭢ Reservar" disabled="#{empty frmReservas.idAsientoSelecionado}" actionListener="#{frmReservas.agregarAsiento}"
+                                                     update="asientoDisponiblesSOB btnCambiosSOB asientoSelecionadosSOB text"/>
+                                    <p:commandButton value="⭠ Eliminar" disabled="#{empty frmReservas.idAsientoELiminado}" actionListener="#{frmReservas.eliminarAsiento}"
+                                                     update="asientoDisponiblesSOB btnCambiosSOB asientoSelecionadosSOB text"/>
+                                </h:panelGrid>
+                                <h:panelGroup>
+                                    <h:outputText value="Asientos Selecionados"/>
+
+                                    <p:selectOneListbox id="asientoSelecionadosSOB" value="#{frmReservas.idAsientoELiminado}" style="width: 200px;">
+                                        <o:selectItems value="#{frmReservas.asientosSelecionados}" var="ta" itemLabel="#{ta.nombre}"
+                                                       itemValue="#{ta.idAsiento}" />
+                                        <p:ajax event="valueChange" listener="#{frmReservas.onTipoReservaChange}" update="btnCambiosSOB" />
+                                    </p:selectOneListbox>
+                                </h:panelGroup>
+                            </h:panelGrid>
+                        </p:panel>
+                    </h:form>
+                </p:tab>
+
+                <p:tab disabled="#{frmReservas.indiceTab!=3}" title="Confirmar" id="Confirmar" closable="false">
+                    <h:form>
+                        <p:panel header="Confirmarcion">
+                            <h:panelGrid columns="2">
+                                <h:outputText value="pelicula #{frmReservas.programacionSelecionada.idPelicula.nombre}"  style="margin-right:10px;"/>
+                                <h:outputText  value="#{frmReservas.fechaProgramacion}"/>
+                                <h:outputText value="sala #{frmReservas.programacionSelecionada.idSala.nombre}"  style="margin-right:10px;"/>
+                                <h:outputText  value="sucursal #{frmReservas.programacionSelecionada.idSala.nombre} - #{frmReservas.programacionSelecionada.idSala.idSucursal.nombre}"/>
+                                <h:outputText value="Asientos"  style="margin-right:10px;"/>
+                                <f:repeat value="#{frmReservas.asientosSelecionados}" var="a">
+                                    <h:outputText value="#{a.nombre}"/>
+                                    <br />
+                                </f:repeat>
+                            </h:panelGrid>
+                            <p:commandButton value="Confirmar reserva" actionListener="#{frmReservas.crearReserva}" update=":growl tabDetalle buttons"/>
+                        </p:panel>
+                    </h:form>
+                </p:tab>
+            </p:tabView>
+            <!-- Mostrar asientos seleccionados 
+            <h3>Asientos seleccionados:</h3>
+            <h:panelGrid columns="3" cellpadding="5">
+                <ui:repeat value="#{frmReservas.asientosSelecionados}" var="a">
+                    <h:outputText value="#{a.nombre}"/>
+                </ui:repeat>
+            </h:panelGrid-->
+
+            <!-- Botón para confirmar 
+            <p:commandButton value="Confirmar Reserva" action="#{frmReservas.confirmarReserva}"
+                             update="messages"/-->
+        </h:form>
+    </ui:define>
+
+</html>
