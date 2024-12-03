@@ -11,8 +11,8 @@
 
         </locale-config>
         <resource-bundle>
-            <base-name>Traduciones</base-name>
-            <var>abstrasctpffrm</var>
+            <base-name>message</base-name>
+            <var>msg</var>
         </resource-bundle>
     </application>
 </faces-config>
