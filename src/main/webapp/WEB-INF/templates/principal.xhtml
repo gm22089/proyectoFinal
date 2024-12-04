@@ -15,7 +15,6 @@
     <h:outputStylesheet library="estilos" name="basico_template.css"/>
 </h:head>
 
-
 <h:body>
     <div class="ui-g">
         <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
@@ -47,7 +46,8 @@
                 <div class="ui-g-12">
                     <h1>
                         <f:insert name="titulo">
-                            Titulo de la pagina
+                            <!--@elvariable id="msg" type="java.util.Map"-->
+                            <h:outputText value="#{msg['abstrasctpffrm.create']}" />
                         </f:insert>
                     </h1>
                 </div>
@@ -55,21 +55,13 @@
                     <div class="ui-g-12" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                         <h1>
                             <f:insert name="cuerpo">
-                                cuerpo de la pagina
+                                <!--@elvariable id="msg" type="java.util.Map"-->
+                                <h:outputText value="#{msg['abstrasctpffrm.cancel']}" />
                             </f:insert>
                         </h1>
-
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-
-    <div class="ui-g-12">
-        Todos los derechos reservados por ... @2024
-    </div>
-    <f:insert name="extras"></f:insert>
 </h:body>
-
-</html>
