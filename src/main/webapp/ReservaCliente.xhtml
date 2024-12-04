@@ -23,7 +23,7 @@
             <p:tabView id="tabDetalle" activeIndex="#{frmReservas.indiceTab}"  >
                 <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
                 <p:ajax process="@this" event="tabChange" listener="#{frmReservas.cambiarTab}" update=":growl" />
-                <!-- comment    <p:tab disabled="#{frmReservas.indiceTab!=0}" title="fecha" id="fecha" closable="false" >
+                   <p:tab disabled="#{frmReservas.indiceTab!=0}" title="fecha" id="fecha" closable="false" >
                     <h:form>
                         <p:panel header="Selecionar una fecha">
                             <h:panelGrid columns="2">

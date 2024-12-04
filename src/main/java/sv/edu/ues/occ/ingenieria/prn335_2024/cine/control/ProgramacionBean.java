@@ -8,6 +8,7 @@ import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Pelicula;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Programacion;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -26,4 +27,7 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
         return em;
     }
 
+    public List<Programacion> findProgramacionesByDate(Date fechaReservaSelecionada) {
+        return List.of();
+    }
 }

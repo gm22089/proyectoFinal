@@ -6,8 +6,11 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Asiento;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.AsientoCaracteristica;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Programacion;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Sala;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Stateless
 @LocalBean
@@ -23,5 +26,9 @@ public class AsientoBean extends AbstractDataPersistence<Asiento> implements Ser
     @Override
     public EntityManager getEntityManager() {
         return em;
+    }
+
+    public List<Asiento> findAsientosBySalaandProgramacion(Sala idSala, Programacion programacionSelecionada) {
+        return List.of();
     }
 }

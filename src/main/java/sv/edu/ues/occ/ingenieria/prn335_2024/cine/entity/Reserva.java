@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "reserva", schema = "public")
@@ -23,7 +23,7 @@ public class Reserva implements Serializable {
     private TipoReserva idTipoReserva;
 
     @Column(name = "fecha_reserva")
-    private OffsetDateTime fechaReserva;
+    private Date fechaReserva;
 
     @Size(max = 155)
     @Column(name = "estado", length = 155)
@@ -61,11 +61,11 @@ public class Reserva implements Serializable {
         this.idTipoReserva = idTipoReserva;
     }
 
-    public OffsetDateTime getFechaReserva() {
+    public Date getFechaReserva() {
         return fechaReserva;
     }
 
-    public void setFechaReserva(OffsetDateTime fechaReserva) {
+    public void setFechaReserva(Date fechaReserva) {
         this.fechaReserva = fechaReserva;
     }
 
