@@ -18,6 +18,26 @@
   </properties>
 
   <dependencies>
+          <!-- JasperReports -->
+          <dependency>
+              <groupId>net.sf.jasperreports</groupId>
+              <artifactId>jasperreports</artifactId>
+              <version>6.20.0</version> <!-- Cambia la versión según lo que necesites -->
+          </dependency>
+
+          <!-- Dependencia para exportar a PDF -->
+          <dependency>
+              <groupId>com.lowagie</groupId>
+              <artifactId>itext</artifactId>
+              <version>2.1.7</version> <!-- Requerido para exportar PDF -->
+          </dependency>
+
+          <!-- JDBC para conectar a tu base de datos PostgreSQL -->
+          <dependency>
+              <groupId>org.postgresql</groupId>
+              <artifactId>postgresql</artifactId>
+              <version>42.6.0</version>
+          </dependency>
       <dependency>
           <groupId>jakarta.platform</groupId>
           <artifactId>jakarta.jakartaee-api</artifactId>
@@ -64,6 +84,7 @@
           <version>14.0.6</version>
           <classifier>jakarta</classifier>
       </dependency>
+
   </dependencies>
 
   <build>
