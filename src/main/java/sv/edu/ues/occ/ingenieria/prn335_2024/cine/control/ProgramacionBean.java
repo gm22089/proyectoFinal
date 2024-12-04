@@ -4,10 +4,7 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.dto.AsientoDTO;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.dto.PeliculaDTO;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.dto.ProgramacionDTO;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.dto.SalaDTO;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.dto.*;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Pelicula;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Programacion;
 
@@ -67,7 +64,29 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
             PeliculaDTO peliculaDTO = new PeliculaDTO();
             peliculaDTO.setIdPelicula(programacion.getIdPelicula().getIdPelicula());
             peliculaDTO.setNombre(programacion.getIdPelicula().getNombre());
-            // Otros campos que necesitas
+            peliculaDTO.setSinopsis(programacion.getIdPelicula().getSinopsis());
+
+            // Convertir PeliculaCaracteristica a DTO
+            List<PeliculaCaracteristicaDTO> peliculaCaracteristicaDTOs = programacion.getIdPelicula().getPeliculaCaracteristicaList().stream()
+                    .map(caracteristica -> {
+                        PeliculaCaracteristicaDTO caracteristicaDTO = new PeliculaCaracteristicaDTO();
+                        caracteristicaDTO.setIdPeliculaCaracteristica(caracteristica.getIdPeliculaCaracteristica());
+                        caracteristicaDTO.setValor(caracteristica.getValor());
+
+                        // Asignar TipoPeliculaDTO desde TipoPelicula
+                        if (caracteristica.getIdTipoPelicula() != null) {
+                            TipoPeliculaDTO tipoPeliculaDTO = new TipoPeliculaDTO();
+                            tipoPeliculaDTO.setIdTipoPelicula(caracteristica.getIdTipoPelicula().getIdTipoPelicula());
+                            tipoPeliculaDTO.setNombre(caracteristica.getIdTipoPelicula().getNombre());
+                            caracteristicaDTO.setTipoPelicula(tipoPeliculaDTO);
+                        }
+
+                        return caracteristicaDTO;
+                    })
+                    .collect(Collectors.toList());
+
+            peliculaDTO.setPeliculaCaracteristicas(peliculaCaracteristicaDTOs);
+
             dto.setPelicula(peliculaDTO);
         }
 
@@ -76,20 +95,31 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
             SalaDTO salaDTO = new SalaDTO();
             salaDTO.setIdSala(programacion.getIdSala().getIdSala());
             salaDTO.setNombre(programacion.getIdSala().getNombre());
-            // Otros campos que necesitas
-            dto.setSala(salaDTO);
+            salaDTO.setActivo(programacion.getIdSala().getActivo());
+            salaDTO.setObservaciones(programacion.getIdSala().getObservaciones());
+
+            // Convertir Sucursal a DTO
+            if (programacion.getIdSala().getIdSucursal() != null) {
+                SucursalDTO sucursalDTO = new SucursalDTO();
+                sucursalDTO.setIdSucursal(programacion.getIdSala().getIdSucursal().getIdSucursal());
+                sucursalDTO.setNombre(programacion.getIdSala().getIdSucursal().getNombre());
+                sucursalDTO.setLongitud(programacion.getIdSala().getIdSucursal().getLongitud());
+                sucursalDTO.setLatitud(programacion.getIdSala().getIdSucursal().getLatitud());
+
+                salaDTO.setSucursal(sucursalDTO);
+            }
 
             List<AsientoDTO> asientoDTOs = programacion.getIdSala().getAsientoList().stream()
                     .map(asiento -> {
                         AsientoDTO asientoDTO = new AsientoDTO();
                         asientoDTO.setIdAsiento(asiento.getIdAsiento());
                         asientoDTO.setNombre(asiento.getNombre());
-                        // Otros campos que necesitas
                         return asientoDTO;
                     })
                     .collect(Collectors.toList());
 
-            dto.setAsientos(asientoDTOs);
+            salaDTO.setAsientoList(asientoDTOs);
+            dto.setSala(salaDTO);
         }
 
         return dto;
