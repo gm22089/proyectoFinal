@@ -71,7 +71,7 @@ public class FrmAsiento extends AbstractFrm<Asiento> implements Serializable {
 
     @Override
     public String paginaNombre() {
-        return "";
+        return "Asiento";
     }
 
     public void btnGuardarHandler() {

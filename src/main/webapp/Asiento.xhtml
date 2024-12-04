@@ -1,93 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="jakarta.faces.html"
+               xmlns:f="jakarta.faces.facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:crud="jakarta.faces.composite/crud"
+               template="WEB-INF/templates/principal.xhtml"
+>
+    <f:define name="titulo">
+        #{frmAsiento.paginaNombre()}
+    </f:define>
 
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-<h:head>
-    <title>Asientos</title>
-</h:head>
+    <f:define name="cuerpo">
+        <h:panelGrid>
+            <h:panelGroup id="pnlTabla">
+                <h:form id="frmTabla">
+                    <p:dataTable value="#{frmAsiento.modelo}" var="r"
+                                 lazy="true"
+                                 paginator="true"
+                                 rows="5"
+                                 first="0"
+                                 selectionMode="single"
+                                 selection="#{frmAsiento.registro}"
+                                 rendered="#{empty frmAsiento.registro}"
+                    >
 
-<h:body>
-    <p:outputLabel value="Asientos" />
-
-    <h:form id="frmTabla">
-        <!-- Tabla de Asientos -->
-        <p:dataTable value="#{frmAsiento.modelo}" var="r"
-                     lazy="true"
-                     paginator="true"
-                     rows="5"
-                     first="0"
-                     selectionMode="single"
-                     selection="#{frmAsiento.registro}"
-                     rendered="#{not empty frmAsiento.modelo}">
-            <p:ajax process="@this" update=":pnlDetalle :frmTabla" event="rowSelect" listener="#{frmAsiento.selecionarFila}"/>
-
-            <p:column headerText="ID Asiento">
-                <h:outputText value="#{r.idAsiento}" />
-            </p:column>
-
-            <p:column headerText="Sala">
-                <h:outputText value="#{r.idSala != null ? r.idSala.idSala : 'No asignada'}" />
-            </p:column>
-
-            <p:column headerText="Nombre">
-                <h:outputText value="#{r.nombre}" />
-            </p:column>
-
-            <p:column headerText="Activo">
-                <h:outputText value="#{r.activo ? 'ACTIVO' : 'INACTIVO'}"/>
-            </p:column>
-        </p:dataTable>
-
-        <!-- Botones para CANCELAR y NUEVO -->
-        <h:panelGrid columns="2" style="margin-top: 20px;">
-            <p:commandButton value="CANCELAR" rendered="#{frmAsiento.estado ne 'NINGUNO'}"
-                             update=":pnlDetalle :frmTabla"
-                             actionListener="#{frmAsiento.btnCancelarHandler}" />
-            <p:commandButton value="NUEVO" update=":pnlDetalle @form" actionListener="#{frmAsiento.btnNuevoHandler}" />
+                        <p:ajax process="@this" update=":pnlDetalle @form" event="rowSelect"
+                                listener="#{frmAsiento.selecionarFila}"/>
+                        <p:column headerText="ID Asiento"><h:outputText value="#{r.idAsiento}"/></p:column>
+                        <p:column headerText="Sala"><h:outputText value="#{r.idSala != null ? r.idSala.idSala : 'No asignada'}"/></p:column>
+                        <p:column headerText="Nombre"><h:outputText value="#{r.nombre}"/></p:column>
+                        <p:column headerText="Activo"><h:outputText value="#{r.activo ? 'ACTIVO' : 'INACTIVO'}"/></p:column>
+                    </p:dataTable>
+                    <crud:botonesTop frm="#{frmAsiento}"/>
+                    <p:growl id="growl" showDetail="true" sticky="false" life="1500"/>
+                </h:form>
+            </h:panelGroup>
         </h:panelGrid>
 
-        <p:growl id="growl" showDetail="true" sticky="false" life="1500" />
-    </h:form>
+        <h:panelGroup id="pnlDetalle">
+            <h:form rendered="#{not empty frmAsiento.registro}" id="frmDetalle">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="ID Asiento" for="txtIdAsiento"/>
+                    <p:inputText id="txtIdAsiento" value="#{frmAsiento.registro.idAsiento}" readonly="true" disabled="true"/>
 
-    <h:panelGroup id="pnlDetalle">
-        <!-- Formulario de detalle de Asiento -->
-        <h:form rendered="#{not empty frmAsiento.registro}" id="frmDetalle">
-            <h:panelGrid columns="2">
-                <p:outputLabel value="ID Asiento" for="txtIdAsiento" />
-                <p:inputText id="txtIdAsiento" value="#{frmAsiento.registro.idAsiento}"
-                             readonly="true" disabled="true" />
+                    <p:outputLabel value="Nombre" for="txtNombre"/>
+                    <p:inputText id="txtNombre" value="#{frmAsiento.registro.nombre}" size="70"/>
 
-                <p:outputLabel value="Nombre" for="txtNombre" />
-                <p:inputText id="txtNombre" value="#{frmAsiento.registro.nombre}" size="70" />
-            </h:panelGrid>
+                    <p:outputLabel value="ID Sala" for="txtIdSala"/>
+                    <p:inputText id="txtIdSala" value="#{frmAsiento.registro.idSala.idSala}" readonly="true" disabled="true"/>
 
-            <h:panelGrid columns="2" style="margin-top: 20px;">
-                <p:outputLabel value="ID Sala" for="txtIdSala" />
-                <p:inputText id="txtIdSala" value="#{frmAsiento.registro.idSala.idSala}"
-                             readonly="true" disabled="true" />
-            </h:panelGrid>
+                    <p:outputLabel value="Activo" for="chkActivo"/>
+                    <p:selectBooleanCheckbox id="chkActivo" value="#{frmAsiento.registro.activo}" size="70"/>
+                </h:panelGrid>
+                <h:panelGrid columns="#{frmAsiento.estado == 'CREAR' ? '1' : '2'}">
+                    <p:commandButton value="Guardar #{frmAsiento.paginaNombre()}"
+                                     rendered="#{frmAsiento.estado == 'CREAR'}" update=":frmTabla :pnlDetalle @form"
+                                     actionListener="#{frmAsiento.btnGuardarHandler}"/>
+                    <p:commandButton value="MODIFICAR" rendered="#{frmAsiento.estado == 'MODIFICAR'}"
+                                     update=":frmTabla :pnlDetalle @form" actionListener="#{frmAsiento.btnModificarHandler}"/>
+                    <p:commandButton value="ELIMINAR" rendered="#{frmAsiento.estado == 'MODIFICAR'}"
+                                     update=":frmTabla :pnlDetalle @form"
+                                     actionListener="#{frmAsiento.btneEliminarHandler}"/>
+                </h:panelGrid>
+            </h:form>
+        </h:panelGroup>
+    </f:define>
 
-            <h:panelGrid columns="2" style="margin-top: 20px;">
-                <p:outputLabel value="Activo" for="chkActivo"/>
-                <p:selectBooleanCheckbox id="chkActivo" value="#{frmAsiento.registro.activo}" size="70"/>
-            </h:panelGrid>
-
-            <!-- Botones para GUARDAR, MODIFICAR, ELIMINAR -->
-            <h:panelGrid columns="3" style="margin-top: 20px;">
-                <p:commandButton value="GUARDAR" rendered="#{frmAsiento.estado == 'CREAR'}"
-                                 update=":frmTabla :pnlDetalle @form"
-                                 actionListener="#{frmAsiento.btnGuardarHandler}" />
-                <p:commandButton value="MODIFICAR" rendered="#{frmAsiento.estado == 'MODIFICAR'}"
-                                 update=":frmTabla :pnlDetalle @form"
-                                 actionListener="#{frmAsiento.btnModificarHandler}" />
-                <p:commandButton value="ELIMINAR" rendered="#{frmAsiento.estado == 'MODIFICAR'}"
-                                 update=":frmTabla :pnlDetalle @form"
-                                 actionListener="#{frmAsiento.btneEliminarHandler}" />
-            </h:panelGrid>
-        </h:form>
-    </h:panelGroup>
-</h:body>
-</html>
+</f:composition>

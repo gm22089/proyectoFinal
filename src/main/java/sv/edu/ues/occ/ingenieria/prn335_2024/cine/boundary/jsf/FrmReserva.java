@@ -2,14 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package sv.edu.ues.occ.ingenieria.prn335_2024.cine.boundary.jsf.orden;
+package sv.edu.ues.occ.ingenieria.prn335_2024.cine.boundary.jsf;
 
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import org.primefaces.event.SelectEvent;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.boundary.jsf.AbstractFrm;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.AbstractDataPersistence;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.control.ReservaBean;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Reserva;

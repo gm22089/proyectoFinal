@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<f:composition xmlns="http://www.w3.org/1999/xhtml"
+               xmlns:h="jakarta.faces.html"
+               xmlns:f="jakarta.faces.facelets"
+               xmlns:p="http://primefaces.org/ui"
+               xmlns:crud="jakarta.faces.composite/crud"
+               template="WEB-INF/templates/principal.xhtml"
+>
+    <f:define name="titulo">
+        #{frmProgramacion.paginaNombre()}
+    </f:define>
+
+    <f:define name="cuerpo">
+        <h:panelGrid>
+            <h:panelGroup id="pnlTabla">
+                <h:form id="frmTabla">
+                    <p:dataTable value="#{frmProgramacion.modelo}" var="r"
+                                 lazy="true"
+                                 paginator="true"
+                                 rows="5"
+                                 first="0"
+                                 selectionMode="single"
+                                 selection="#{frmProgramacion.registro}"
+                                 rendered="#{empty frmProgramacion.registro}"
+                    >
+
+                        <p:ajax process="@this" update=":pnlDetalle @form" event="rowSelect"
+                                listener="#{frmProgramacion.selecionarFila}"/>
+                        <p:column headerText="ID Programación"><h:outputText value="#{r.idProgramacion}"/></p:column>
+                        <p:column headerText="Sala"><h:outputText
+                                value="#{r.idSala != null ? r.idSala.idSala : 'No asignada'}"/></p:column>
+                        <p:column headerText="Película"><h:outputText
+                                value="#{r.idPelicula != null ? r.idPelicula.nombre : 'No asignada'}"/></p:column>
+                        <p:column headerText="Desde"><h:outputText value="#{r.desde}"/></p:column>
+                        <p:column headerText="Hasta"><h:outputText value="#{r.hasta}"/></p:column>
+                        <p:column headerText="Comentarios"><h:outputText value="#{r.comentarios}"/></p:column>
+                    </p:dataTable>
+                    <crud:botonesTop frm="#{frmProgramacion}"/>
+                    <p:growl id="growl" showDetail="true" sticky="false" life="1500"/>
+                </h:form>
+            </h:panelGroup>
+        </h:panelGrid>
+
+        <h:panelGroup id="pnlDetalle">
+            <h:form rendered="#{not empty frmProgramacion.registro}" id="frmDetalle">
+                <h:panelGrid columns="2">
+                    <p:outputLabel value="ID Programación" for="txtIdProgramacion"/>
+                    <p:inputText id="txtIdProgramacion" value="#{frmProgramacion.registro.idProgramacion}"
+                                 readonly="true" disabled="true"/>
+
+                    <p:outputLabel value="ID Sala" for="txtIdSala"/>
+                    <p:inputText id="txtIdSala" value="#{frmProgramacion.registro.idSala.idSala}" readonly="true"
+                                 disabled="false"/>
+
+                    <p:outputLabel value="ID Película" for="txtIdPelicula"/>
+                    <p:inputText id="txtIdPelicula" value="#{frmProgramacion.registro.idPelicula.nombre}"
+                                 readonly="true" disabled="false"/>
+
+                    <p:outputLabel value="Desde" for="txtDesde"/>
+                    <p:inputText id="txtDesde" value="#{frmProgramacion.registro.desde}" size="70"/>
+
+                    <p:outputLabel value="Hasta" for="txtHasta"/>
+                    <p:inputText id="txtHasta" value="#{frmProgramacion.registro.hasta}" size="70"/>
+
+                    <p:outputLabel value="Comentarios" for="txtComentarios"/>
+                    <p:inputTextarea id="txtComentarios" value="#{frmProgramacion.registro.comentarios}" rows="4"
+                                     cols="70"/>
+                </h:panelGrid>
+                <h:panelGrid columns="#{frmProgramacion.estado == 'CREAR' ? '1' : '2'}">
+                    <p:commandButton value="Guardar #{frmProgramacion.paginaNombre()}"
+                                     rendered="#{frmProgramacion.estado == 'CREAR'}"
+                                     update=":frmTabla :pnlDetalle @form"
+                                     actionListener="#{frmProgramacion.btnGuardarHandler}"/>
+                    <p:commandButton value="MODIFICAR" rendered="#{frmProgramacion.estado == 'MODIFICAR'}"
+                                     update=":frmTabla :pnlDetalle @form"
+                                     actionListener="#{frmProgramacion.btnModificarHandler}"/>
+                    <p:commandButton value="ELIMINAR" rendered="#{frmProgramacion.estado == 'MODIFICAR'}"
+                                     update=":frmTabla :pnlDetalle @form"
+                                     actionListener="#{frmProgramacion.btneEliminarHandler}"/>
+                </h:panelGrid>
+            </h:form>
+        </h:panelGroup>
+    </f:define>
+
+</f:composition>

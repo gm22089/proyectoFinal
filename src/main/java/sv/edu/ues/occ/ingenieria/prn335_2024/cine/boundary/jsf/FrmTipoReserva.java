@@ -42,7 +42,7 @@ public class FrmTipoReserva extends AbstractFrm<TipoReserva> implements Serializ
 
     @Override
     public String getIdByObject(TipoReserva object) {
-        if (object!=null){
+        if (object != null) {
             return object.getIdTipoReserva().toString();
         }
         return null;
@@ -50,13 +50,14 @@ public class FrmTipoReserva extends AbstractFrm<TipoReserva> implements Serializ
 
     @Override
     public TipoReserva getObjectById(String id) {
-        if (id!=null && modelo!=null && modelo.getWrappedData()!=null){
+        if (id != null && modelo != null && modelo.getWrappedData() != null) {
 
             return modelo.getWrappedData().stream().
-                    filter(r->id.equals(r.getIdTipoReserva().toString())).findFirst().
-                    orElseGet(()-> {
-                        Logger.getLogger(getClass().getName()).log(Level.INFO,"No se ha encontrado objeto");
-                        return null;});
+                    filter(r -> id.equals(r.getIdTipoReserva().toString())).findFirst().
+                    orElseGet(() -> {
+                        Logger.getLogger(getClass().getName()).log(Level.INFO, "No se ha encontrado objeto");
+                        return null;
+                    });
         }
         return null;
     }
@@ -64,9 +65,9 @@ public class FrmTipoReserva extends AbstractFrm<TipoReserva> implements Serializ
     @Override
     public void selecionarFila(SelectEvent<TipoReserva> event) {
         TipoReserva tipoReservaSelected = (TipoReserva) event.getObject();
-        FacesMessage mensaje=new FacesMessage("Tipo de Reserva seleccionado",tipoReservaSelected.getNombre());
+        FacesMessage mensaje = new FacesMessage("Tipo de Reserva seleccionado", tipoReservaSelected.getNombre());
         fc.addMessage(null, mensaje);
-        this.estado=ESTADO_CRUD.MODIFICAR;
+        this.estado = ESTADO_CRUD.MODIFICAR;
     }
 
     @Override

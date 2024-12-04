@@ -4,23 +4,26 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoProducto;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Pelicula;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Programacion;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Stateless
 @LocalBean
-public class TipoProductoBean extends AbstractDataPersistence<TipoProducto> implements Serializable {
+public class ProgramacionBean extends AbstractDataPersistence<Programacion> implements Serializable {
 
-    @PersistenceContext(name = "CinePU")
+    @PersistenceContext(unitName = "CinePU")
     EntityManager em;
 
-    public TipoProductoBean() {
-        super(TipoProducto.class);
+    public ProgramacionBean() {
+        super(Programacion.class);
     }
 
     @Override
     public EntityManager getEntityManager() {
         return em;
     }
+
 }
