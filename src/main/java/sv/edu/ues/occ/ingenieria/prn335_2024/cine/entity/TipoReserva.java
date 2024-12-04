@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -34,6 +35,7 @@ public class TipoReserva implements Serializable {
     private String comentarios;
 
     @OneToMany(mappedBy = "idTipoReserva", fetch = FetchType.LAZY)
+    @JsonbTransient
     private List<Reserva> reservaList;
 
     public TipoReserva() {}
