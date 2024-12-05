@@ -9,7 +9,10 @@ import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.io.Serializable;
+
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Programacion;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Reserva;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.TipoReserva;
 
 /**
  *
@@ -27,5 +30,19 @@ public class ReservaBean extends AbstractDataPersistence<Reserva> implements Ser
     @Override
     public EntityManager getEntityManager() {
         return em;
+    }
+
+    public Programacion findProgramacionById(Long idProgramacion) {
+        if (idProgramacion != null) {
+            return (Programacion) em.find(Programacion.class, idProgramacion);
+        }
+        return null;
+    }
+
+    public TipoReserva findTipoReservaById(Integer idTipoReserva) {
+        if (idTipoReserva != null) {
+            return (TipoReserva) em.find(TipoReserva.class, idTipoReserva);
+        }
+        return null;
     }
 }

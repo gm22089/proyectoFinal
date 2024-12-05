@@ -1,5 +1,6 @@
 package sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Basic;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

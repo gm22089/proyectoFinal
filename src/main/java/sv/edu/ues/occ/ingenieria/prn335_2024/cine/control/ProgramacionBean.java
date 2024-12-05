@@ -4,6 +4,7 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TemporalType;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.dto.*;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Pelicula;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Programacion;
@@ -29,18 +30,12 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
         return em;
     }
 
-    public List<Programacion> findProgramacionesByDate(Date fechaReservaSelecionada) {
-        return List.of();
-    }
-
     //Metodo para traer asientos de una programación.
-    public List<Programacion> findProgramacionWithAsientos() {
+    public List<Programacion> findProgramacionesByDate(Date fechaReservaSeleccionada) {
         return em.createQuery(
-                        "SELECT p FROM Programacion p "
-                                + "LEFT JOIN FETCH p.idSala s "
-                                + "LEFT JOIN FETCH s.asientoList "
-                                + "LEFT JOIN FETCH p.idPelicula",
+                        "SELECT p FROM Programacion p WHERE FUNCTION('DATE', p.desde) = :fecha",
                         Programacion.class)
+                .setParameter("fecha", fechaReservaSeleccionada, TemporalType.DATE)
                 .getResultList();
     }
 
@@ -52,7 +47,7 @@ public class ProgramacionBean extends AbstractDataPersistence<Programacion> impl
                 .collect(Collectors.toList());
     }
 
-    private ProgramacionDTO convertirAProgramacionDTO(Programacion programacion) {
+    public ProgramacionDTO convertirAProgramacionDTO(Programacion programacion) {
         ProgramacionDTO dto = new ProgramacionDTO();
         dto.setIdProgramacion(programacion.getIdProgramacion());
         dto.setDesde(programacion.getDesde());

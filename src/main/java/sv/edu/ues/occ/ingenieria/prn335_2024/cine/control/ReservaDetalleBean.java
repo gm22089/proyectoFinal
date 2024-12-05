@@ -13,6 +13,8 @@ import jakarta.ejb.LocalBean;
 import jakarta.ejb.Stateless;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Asiento;
+import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.Reserva;
 import sv.edu.ues.occ.ingenieria.prn335_2024.cine.entity.ReservaDetalle;
 
 import java.io.Serializable;
@@ -28,5 +30,19 @@ public class ReservaDetalleBean extends AbstractDataPersistence<ReservaDetalle> 
     @Override
     public EntityManager getEntityManager() {
         return em;
+    }
+
+    public Reserva findReservaById(Long idReserva) {
+        if(idReserva != null) {
+            return em.find(Reserva.class, idReserva);
+        }
+        return null;
+    }
+
+    public Asiento findAsientoById(Long idAsiento) {
+        if(idAsiento != null) {
+            return em.find(Asiento.class, idAsiento);
+        }
+        return null;
     }
 }
